@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% load markdown_extras %}
+{% block content %}
+
+<body class="bg-gray-100 font-sans leading-normal tracking-normal"> 
+
+	<!-- <nav id="header" class="fixed w-full z-10 top-0">
+
+		<div id="progress" class="h-1 z-20 top-0" style="background:linear-gradient(to right, #4dc0b5 var(--scroll), transparent 0);"></div>
+
+		<div class="w-full md:max-w-4xl mx-auto flex flex-wrap items-center justify-between mt-0 py-3">
+
+			<div class="pl-4">
+				<a class="text-gray-900 text-base no-underline hover:no-underline font-extrabold text-xl" href="#">
+					Minimal Blog
+				</a>
+			</div>
+
+			<div class="block lg:hidden pr-4">
+				<button id="nav-toggle" class="flex items-center px-3 py-2 border rounded text-gray-500 border-gray-600 hover:text-gray-900 hover:border-green-500 appearance-none focus:outline-none">
+					<svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+						<title>Menu</title>
+						<path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+					</svg>
+				</button>
+			</div>
+
+			<div class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden lg:block mt-2 lg:mt-0 bg-gray-100 md:bg-transparent z-20" id="nav-content">
+				<ul class="list-reset lg:flex justify-end flex-1 items-center">
+					<li class="mr-3">
+						<a class="inline-block py-2 px-4 text-gray-900 font-bold no-underline" href="#">Active</a>
+					</li>
+					<li class="mr-3">
+						<a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-2 px-4" href="#">link</a>
+					</li>
+					<li class="mr-3">
+						<a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-2 px-4" href="#">link</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav> -->
+
+	<!--Container-->
+	<div class="container w-full md:max-w-3xl mx-auto pt-20">
+
+		<div class="w-full px-4 md:px-6 text-xl text-gray-800 leading-normal" style="font-family:Georgia,serif;">
+
+			<!--Title-->
+			<div class="font-sans">
+						<h1 class="font-bold font-sans break-normal text-gray-900 pt-6 pb-2 text-3xl md:text-4xl">
+						{{ post.title }}</h1>
+						<p class="text-sm md:text-base font-normal text-gray-600">
+						{{ obj.timestamp}}</p>
+						<img class="h-40 rounded w-full object-cover object-center mb-6" src="{{ post.thumbnail.url }}" alt="content">
+			</div>
+
+
+			<!--Post Content-->
+
+			<div class="py-6">
+			{{ post.content | markdown | safe }}
+			</div>
+
+
+		
+
+		
+
+			<ol>
+				<li class="py-3">BMW M5 — avtomobil şirkəti BMW tərəfindən hazırlanmış, yüksək texnologiyalı avtomobil. BMW 5 Series sport sedanını təmsil edir. BMW M5 ilk dəfə 1984-cü ildə Amsterdam avtosalonunda əl istehsalı və 535i şassisi və dəyişdirilmiş BMW M1 mühərrikindən istifadə etməklə təqdim edilib. BMW M5 təqdim edildiyi andan dünyanın ən sürətli sedanı hesab olunurdu.</li>
+				<li class="py-3">İlk BMW M5 (E28 5 Series əsasında) 1984-cü ilin fevralında Amsterdam avtosalonunda debüt etdi. Sport avtomobilinin ümumi istehsalı ilə dörd qapılı sedan kateqoriyasından ibarətdir. BMW M5 535i şasisi və dəyişdirilmiş BMW M1 mühərrikindən istifadə edilib, çəkisi 1550 kq idi. E28 M5 təqdim edildiyi andan dünyanın ən sürətli sedanı hesab olunurdu. Dörd fərqli versiyada buraxılmışdır. 1985–1988-ci illərdə nəşr edilmişdir. Ümumilikdə 2191 ədəd buraxıldı. E28 M5, E34 M5 ilə əvəz olundu.</li>
+				<li class="py-3">BMW E34 M5 3,6 litrlik mühərriklə, ilk dəfə 1988-ci ilin sentyabrında Frankfurt avtosalonunda təqdim edildi. BMW E34 M5, 311 at gücü hasil edir. 1991-ci ildə 3,8 litrlik mühərriklə eyni model təqdim edildi. Bütün M5 E34 modelləri Almaniyanın kiçik Qarxinq şəhərində yığılıb, 340 at gücü hasil edir. BMW E34 M5, E39 M5 ilə əvəz olundu.</li>
+				<li class="py-3">BMW E39 M5 1998-ci ildə Cenevrə avtosalonunda təqdim edildi. Sələflərindən fərqli olaraq, E39 M5 Almaniyadakı Dinqolfinq zavodunda adi istehsal xəttində yığılmışdır. 4,9 litrlik V8 BMW S62 mühərriki ilə təchiz olub. 400 at gücü hasil edir. E39 M5, E60 M5 ilə əvəz olundu.</li>
+				<li class="py-3">BMW E60 M5 istehsalına 2005-ci ildə başlanılıb. 5,0 litrlik V10 BMW S85B50 mühərriki ilə təchiz olunub. BMW E60 M5, 507 at gücü hasil edir. 0 100 kmh surəti salon üçün 4.7sn sonradan yoxlanılandan sonra 4.1sn olmuşdur. M5 E60 7 pilləli SMGIII transmissiyaya malikdir, yalnız Amerika üçün 6 pilləli mexaniki transmissiya ilə istehsal edilib.surət limiti 250kmh qoyulmuş lakin maksimum 305km surətə çatmışdır. Bu modelin istehsalı 2010-cu ilə qədər davam etdi, və F10 M5 ilə əvəz olundu. 2005-2010-cu illər ərzində 20589 avtomobil istehsal olunub.</li>
+				<li class="py-3">BMW F10 M5 2011-ci ildə Frankfurt avtosalonunda təqdim edilib. BMW F10 M5, 4,4 litrlik V8 mühərriki ilə təchiz edilib.</li>
+				<li class="py-3">BMW F90 M5, 2017-ci ilin sentyabrında Frankfurt avtosalonunda, BMW M5 G30 əsasında kütləvi debüt etdi. BMW F90 M5 yerindən 0-dan 100 (km/s) kilometrə 3,4 saniyəyə, 0-dan 200 (km/s) kilometrə isə 11,1 saniyəyə sürətlənir.</li>
+			</ol>
+
+	
+
+
+			<!--/ Post Content-->
+
+		</div>
+
+		
+
+		<!--Divider-->
+		<hr class="border-b-2 border-gray-400 mb-8 mx-4">
+
+
+
+		<!--Author-->
+		<div class="flex w-full items-center font-sans px-4 py-12">
+			<img class="w-10 h-10 rounded-full mr-4" src="{{ post.author.profile_picture.url }}">
+			<div class="flex-1 px-2">
+				<p class="text-base font-bold text-base md:text-xl leading-none mb-2">
+				{{ post.author }}</p>
+		
+			</div>
+			
+		</div>
+		<!--/Author-->
+
+		<!--Divider-->
+		<hr class="border-b-2 border-gray-400 mb-8 mx-4">
+
+	
+
+	</div>
+	<!--/container-->
+
+	
+
+	<script>
+		/* Progress bar */
+		//Source: https://alligator.io/js/progress-bar-javascript-css-variables/
+		var h = document.documentElement,
+			b = document.body,
+			st = 'scrollTop',
+			sh = 'scrollHeight',
+			progress = document.querySelector('#progress'),
+			scroll;
+		var scrollpos = window.scrollY;
+		var header = document.getElementById("header");
+		var navcontent = document.getElementById("nav-content");
+
+		document.addEventListener('scroll', function() {
+
+			/*Refresh scroll % width*/
+			scroll = (h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight) * 100;
+			progress.style.setProperty('--scroll', scroll + '%');
+
+			/*Apply classes for slide in bar*/
+			scrollpos = window.scrollY;
+
+			if (scrollpos > 10) {
+				header.classList.add("bg-white");
+				header.classList.add("shadow");
+				navcontent.classList.remove("bg-gray-100");
+				navcontent.classList.add("bg-white");
+			} else {
+				header.classList.remove("bg-white");
+				header.classList.remove("shadow");
+				navcontent.classList.remove("bg-white");
+				navcontent.classList.add("bg-gray-100");
+
+			}
+
+		});
+
+
+		//Javascript to toggle the menu
+		document.getElementById('nav-toggle').onclick = function() {
+			document.getElementById("nav-content").classList.toggle("hidden");
+		}
+	</script>
+
+<!-- </body> -->
+
+{% endblock content %}
