@@ -24,6 +24,13 @@
         <a href="{% url 'cars' %}" class="mr-5 hover:text-red-900 rounded-lg hover:bg-yellow-200 inline-flex items-center">
           Cars
         </a>
+        </a>
+        <a href="{% url 'favorite_list' %}" class="mr-5 hover:text-blue-900 rounded-lg hover:bg-blue-200 inline-flex items-center">
+          Favorites
+        </a>
+        <a href="{% url 'polls:index' %}" class="mr-5 hover:text-blue-900 rounded-lg hover:bg-blue-200 inline-flex items-center">
+        Polls
+        </a>
           <!-- This example requires Tailwind CSS v2.0+ -->
 <div x-data="{ open: false }" class="relative inline-block text-left">
   <div>

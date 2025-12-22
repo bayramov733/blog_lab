@@ -1,20 +1,31 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.shortcuts import redirect
+from posts import views
 
-from posts.views import homepage, post, about, search, postlist, allposts, tag_list, cars
+def home_redirect(request):
+    return redirect("/polls/")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', homepage, name = 'homepage'),
-    path('post/<slug>/', post, name = 'post'),
-    path('about/', about,name = 'about' ),
-    path('search/', search, name = 'search'),
-    path('postlist/<slug>/', postlist, name = 'postlist'), 
-    path('posts/', allposts, name = 'allposts'),
-    path('tag/', tag_list, name = 'tag_list' ),
-    path('cars/', cars, name = 'cars' ),
+    path('', views.homepage, name='homepage'),
+    path('post/<slug>/', views.post, name = 'post'),
+    path('post/<slug:slug>/', views.post, name='post_detail'),
+    path('post/<slug:slug>/like/', views.like_post, name='like_post'),
+    path('about/', views.about, name='about'),
+    path('search/', views.search, name='search'),
+    path('postlist/<slug>/', views.postlist, name='postlist'),
+    path('posts/', views.allposts, name='allposts'),
+    path('tag/', views.tag_list, name='tag_list'),
+    path('cars/', views.cars, name='cars'),
+    path('post/<slug:slug>/favorite/', views.toggle_favorite, name='toggle_favorite'),
+    path('favorites/', views.favorite_list, name='favorite_list'),
+
+    path("", home_redirect), 
+    path("polls/", include("polls.urls")),
+    path("admin/", admin.site.urls),
     
 ]
 

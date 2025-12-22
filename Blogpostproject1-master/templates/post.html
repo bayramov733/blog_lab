@@ -52,8 +52,42 @@
 						{{ post.title }}</h1>
 						<p class="text-sm md:text-base font-normal text-gray-600">
 						{{ obj.timestamp}}</p>
-						<img class="h-40 rounded w-full object-cover object-center mb-6" src="{{ post.thumbnail.url }}" alt="content">
+						<img class="h-50 rounded w-full object-cover object-center mb-6" src="{{ post.thumbnail.url }}" alt="content">
 			</div>
+
+
+			<!--  LIKE BURDA -->
+			{% if user.is_authenticated %}
+			<form method="POST" action="{% url 'like_post' post.slug %}" class="mb-6">
+				{% csrf_token %}
+				{% if user in post.likes.all %}
+        			<button type="submit" class="text-gray-900">
+            		❤️ {{ post.total_likes }}
+       				</button>
+    			{% else %}
+        			<button type="submit" class="flex items-center space-x-1 px-2 py-1"> 
+            		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="24" height="24">
+  					<path d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5
+  					-1.935 0-3.597 1.126-4.312 2.733
+  					-.715-1.607-2.377-2.733-4.313-2.733
+  					C5.1 3.75 3 5.765 3 8.25
+  					c0 7.22 9 12 9 12s9-4.78 9-12z"/>
+					</svg>
+					<span class="text-gray-900">{{ post.total_likes }}</span> 
+        			</button>
+    			{% endif %}
+			</form>
+			
+			{% else %}
+			<p class="text-sm text-gray-500 mb-6">
+				Like etmək üçün login olun
+			</p>
+			{% endif %}
+			<!--  LIKE QUTARDI -->
+
+			<div class="flex items-center text-gray-700 text-xl font-semibold">
+    		👁 <span class="ml-2">{{ post.views }}</span>
+  			</div>
 
 
 			<!--Post Content-->
@@ -68,13 +102,7 @@
 		
 
 			<ol>
-				<li class="py-3">BMW M5 — avtomobil şirkəti BMW tərəfindən hazırlanmış, yüksək texnologiyalı avtomobil. BMW 5 Series sport sedanını təmsil edir. BMW M5 ilk dəfə 1984-cü ildə Amsterdam avtosalonunda əl istehsalı və 535i şassisi və dəyişdirilmiş BMW M1 mühərrikindən istifadə etməklə təqdim edilib. BMW M5 təqdim edildiyi andan dünyanın ən sürətli sedanı hesab olunurdu.</li>
-				<li class="py-3">İlk BMW M5 (E28 5 Series əsasında) 1984-cü ilin fevralında Amsterdam avtosalonunda debüt etdi. Sport avtomobilinin ümumi istehsalı ilə dörd qapılı sedan kateqoriyasından ibarətdir. BMW M5 535i şasisi və dəyişdirilmiş BMW M1 mühərrikindən istifadə edilib, çəkisi 1550 kq idi. E28 M5 təqdim edildiyi andan dünyanın ən sürətli sedanı hesab olunurdu. Dörd fərqli versiyada buraxılmışdır. 1985–1988-ci illərdə nəşr edilmişdir. Ümumilikdə 2191 ədəd buraxıldı. E28 M5, E34 M5 ilə əvəz olundu.</li>
-				<li class="py-3">BMW E34 M5 3,6 litrlik mühərriklə, ilk dəfə 1988-ci ilin sentyabrında Frankfurt avtosalonunda təqdim edildi. BMW E34 M5, 311 at gücü hasil edir. 1991-ci ildə 3,8 litrlik mühərriklə eyni model təqdim edildi. Bütün M5 E34 modelləri Almaniyanın kiçik Qarxinq şəhərində yığılıb, 340 at gücü hasil edir. BMW E34 M5, E39 M5 ilə əvəz olundu.</li>
-				<li class="py-3">BMW E39 M5 1998-ci ildə Cenevrə avtosalonunda təqdim edildi. Sələflərindən fərqli olaraq, E39 M5 Almaniyadakı Dinqolfinq zavodunda adi istehsal xəttində yığılmışdır. 4,9 litrlik V8 BMW S62 mühərriki ilə təchiz olub. 400 at gücü hasil edir. E39 M5, E60 M5 ilə əvəz olundu.</li>
-				<li class="py-3">BMW E60 M5 istehsalına 2005-ci ildə başlanılıb. 5,0 litrlik V10 BMW S85B50 mühərriki ilə təchiz olunub. BMW E60 M5, 507 at gücü hasil edir. 0 100 kmh surəti salon üçün 4.7sn sonradan yoxlanılandan sonra 4.1sn olmuşdur. M5 E60 7 pilləli SMGIII transmissiyaya malikdir, yalnız Amerika üçün 6 pilləli mexaniki transmissiya ilə istehsal edilib.surət limiti 250kmh qoyulmuş lakin maksimum 305km surətə çatmışdır. Bu modelin istehsalı 2010-cu ilə qədər davam etdi, və F10 M5 ilə əvəz olundu. 2005-2010-cu illər ərzində 20589 avtomobil istehsal olunub.</li>
-				<li class="py-3">BMW F10 M5 2011-ci ildə Frankfurt avtosalonunda təqdim edilib. BMW F10 M5, 4,4 litrlik V8 mühərriki ilə təchiz edilib.</li>
-				<li class="py-3">BMW F90 M5, 2017-ci ilin sentyabrında Frankfurt avtosalonunda, BMW M5 G30 əsasında kütləvi debüt etdi. BMW F90 M5 yerindən 0-dan 100 (km/s) kilometrə 3,4 saniyəyə, 0-dan 200 (km/s) kilometrə isə 11,1 saniyəyə sürətlənir.</li>
+				<li class="py-3">BMW M5 — avtomobil şirkəti BMW tərəfindən hazırlanmış...</li>
 			</ol>
 
 	
@@ -87,7 +115,12 @@
 		
 
 		<!--Divider-->
-		<hr class="border-b-2 border-gray-400 mb-8 mx-4">
+		<hr class="border-b-2 border-blue-900 mb-8 mx-4">
+
+		
+
+
+
 
 
 
@@ -104,9 +137,51 @@
 		<!--/Author-->
 
 		<!--Divider-->
-		<hr class="border-b-2 border-gray-400 mb-8 mx-4">
+		<hr class="border-b-2 border-blue-900 mb-8 mx-4">
 
-	
+		    <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+    			💬 Comments
+			</h3>
+
+			{% for comment in comments %}
+    			<div class="bg-gray-100 p-4 rounded-xl mb-3 shadow-sm">
+        			<strong class="text-gray-800">
+            			{{ comment.user.username }}
+        			</strong>
+
+        			<p class="text-gray-700 mt-1">
+            			{{ comment.content }}
+        			</p>
+
+        			<small class="text-gray-500 block mt-2">
+            			{{ comment.created_at }}
+        			</small>
+    			</div>
+			{% empty %}
+    			<p class="text-gray-500">Hələ comment yoxdur.</p>
+			{% endfor %}
+
+			{% if user.is_authenticated %}
+			<form method="POST" class="mt-6">
+   				{% csrf_token %}
+
+    			<textarea name="content" required placeholder="Şərh əlavə edin..." class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none"
+       			></textarea>
+
+    			<button type="submit" class="mt-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-xl transition"
+            	>Göndər 
+    			</button>
+			</form>
+			{% else %}
+				<p class="text-red-500 mt-4">
+    			Comment yazmaq üçün login olun.
+				</p>
+			{% endif %}
+
+
+
+
+
 
 	</div>
 	<!--/container-->
@@ -156,6 +231,7 @@
 			document.getElementById("nav-content").classList.toggle("hidden");
 		}
 	</script>
+	
 
 <!-- </body> -->
 

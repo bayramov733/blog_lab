@@ -1,0 +1,39 @@
+{% extends "polls/base.html" %}
+
+{% block title %}{{ question.question_text }}{% endblock %}
+
+{% block content %}
+<h1>{{ question.question_text }}</h1>
+
+<form action="{% url 'polls:vote' question.id %}" method="post">
+  {% csrf_token %}
+  
+  <!-- Error message -->
+  {% if error_message %}
+    <p class="error-message">{{ error_message|default:'' }}</p>
+  {% endif %}
+  
+  <!-- Choice list -->
+  {% for choice in question.choice_set.all %}
+    <label>
+      <input type="checkbox" name="choices" value="{{ choice.id }}">
+      {{ choice.choice_text }}
+    </label><br>
+  {% endfor %}
+  
+  <!-- Buttons -->
+  <button type="submit" class="button button2">Səs ver</button>
+  <button type="button" id="select-all" class="button button2">Hamısını seç</button>
+</form>
+
+<script>
+  const selectAllBtn = document.getElementById('select-all');
+
+  selectAllBtn.addEventListener('click', () => {
+    const checkboxes = document.querySelectorAll('input[name="choices"]');
+    const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+    checkboxes.forEach(cb => cb.checked = !allChecked);
+    selectAllBtn.textContent = allChecked ? 'Hamısını seç' : 'Hamısını sil';
+  });
+</script>
+{% endblock %}

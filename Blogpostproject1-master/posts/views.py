@@ -1,6 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q 
-from .models import Category, Post, Author, Tag, Car
+from .models import Category, Post, Author, Tag, Car, Comment, About
+from django.contrib.auth.decorators import login_required
+
 
 def get_author(user):
     qs = Author.objects.filter(user=user)
@@ -21,15 +23,40 @@ def homepage (request):
 
 def post (request,slug):
     post = Post.objects.get(slug = slug)
+
+    post.views += 1
+    post.save(update_fields=['views'])
+    
+    
     latest = Post.objects.order_by('-timestamp')[:3]
+    comments=post.comments.filter(active=True)
+    if request.method == 'POST' :
+        if request.user.is_authenticated:
+            content=request.POST.get('content')
+            if content:
+                Comment.objects.create(
+                    post=post,
+                    user=request.user,
+                    content=content
+                )
+                return redirect('post', slug=post.slug)
     context = {
         'post': post,
         'latest': latest,
+        'comments': comments,
     }
     return render(request, 'post.html', context)
 
-def about (request):
-    return render(request, 'about_page.html')
+def about(request, slug=None):
+    if slug:
+        about_post = About.objects.get(slug=slug)
+    else:
+        about_post = About.objects.first()  
+    
+    context = {
+        'about_post': about_post,
+    }
+    return render(request, 'about_page.html', context)
 
 def search(request):
     queryset = Post.objects.all()
@@ -64,7 +91,15 @@ def allposts(request):
     return render(request, 'all_posts.html', context)
 
 def cars (request):
+    q = request.GET.get('q')
     cars = Car.objects.all()
+
+    if q:
+        cars = cars.filter(
+            Q(name__icontains=q) | Q(surname__icontains=q)
+        )
+
+
     return render(request, 'cars.html', {'cars': cars}) 
 
 def tag_list(request):
@@ -76,3 +111,33 @@ def tag_list(request):
         tags = Tag.objects.all()
 
     return render(request , 'tag_list.html' , {'tag':tags , 'query':query})
+
+
+
+@login_required
+def like_post(request, slug):
+    post = get_object_or_404(Post, slug=slug)
+
+    if request.user in post.likes.all():
+        post.likes.remove(request.user)   
+    else:
+        post.likes.add(request.user)      
+
+    return redirect(request.META.get('HTTP_REFERER', '/'))
+
+
+@login_required
+def toggle_favorite(request, slug):
+    post = get_object_or_404(Post, slug=slug)
+
+    if request.user in post.favorites.all():
+        post.favorites.remove(request.user)
+    else:
+        post.favorites.add(request.user)
+
+    return redirect(request.META.get('HTTP_REFERER', 'homepage'))
+
+@login_required
+def favorite_list(request):
+    posts = request.user.favorite_posts.all()
+    return render(request, 'favorites.html', {'posts': posts})

@@ -1,0 +1,52 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="text-gray-600 body-font">
+  <div class="container px-5 py-24 mx-auto">
+
+    <div class="flex flex-wrap w-full mb-20">
+        <div class="lg:w-1/2 w-full mb-6 lg:mb-0">
+          <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">
+            My Favourites </h1>
+          <div class="h-1 w-20 bg-blue-900 rounded"></div>
+        </div>
+      </div>
+
+    {% if posts %}
+    <div class="flex flex-wrap -m-4">
+      {% for post in posts %}
+      <div class="md:w-1/3 p-4">
+        <div class="bg-slate-100 p-6 rounded-lg">
+
+          <img src="{{ post.thumbnail.url }}"
+               class="h-40 w-full object-cover rounded mb-3">
+
+          <h2 class="text-lg font-medium text-gray-900">
+            {{ post.title }}
+          </h2>
+
+          <p class="text-sm text-gray-600">
+            {{ post.overview|truncatewords:15 }}
+          </p>
+
+          <a href="{% url 'post_detail' post.slug %}"
+             class="text-blue-900 mt-2 inline-block">
+            Read more →
+          </a>
+
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+      <p class="text-center text-gray-500">
+        Hələ favourite postun yoxdur...
+      </p>
+    {% endif %}
+
+  </div>
+</section>
+
+{% endblock content %}
