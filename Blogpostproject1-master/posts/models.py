@@ -27,13 +27,12 @@ class Tag(models.Model):
     def __str__(self):
         return self.name
     
-class Car (models.Model):
-    surname = models.CharField(max_length=100)
+class Kitab (models.Model):
     name = models.CharField(max_length=100)
-    date = models.DateField()
+    writername = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.surname
+        return self.name
 
 class Post(models.Model):
     title = models.CharField(max_length=100)
@@ -91,4 +90,3 @@ class About(models.Model):
     def __str__(self):
         return self.title
     
-

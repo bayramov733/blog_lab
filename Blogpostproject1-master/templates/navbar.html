@@ -2,7 +2,7 @@
 
 {% get_categories as category_list %}
     
-    <header class="border-b-4 border-pink-500 text-gray-600 body-font">
+    <header class="border-b-4 border-red-500 text-gray-600 body-font">
     <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
       <a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-pink-500 rounded-full" viewBox="0 0 24 24">
@@ -15,21 +15,17 @@
         <a href="{% url 'homepage' %}" class="mr-5 hover:text-gray-900 rounded-lg hover:bg-pink-200 inline-flex items-center">
           Home
         </a>
+        <a href="{% url 'kitabs' %}" class="mr-5 hover:text-gray-900 rounded-lg hover:bg-pink-200 inline-flex items-center">
+          Kitablar
+        </a>
         <a href="{% url 'about' %}" class="mr-5 hover:text-gray-900 rounded-lg hover:bg-pink-200 inline-flex items-center">
           About
         </a>
-        <a href="{% url 'tag_list' %}" class="mr-5 hover:text-red-900 rounded-lg hover:bg-yellow-200 inline-flex items-center">
+        <a href="{% url 'tag_list' %}" class="mr-5 hover:text-gray-900 rounded-lg hover:bg-pink-200 inline-flex items-center">
           Tags
         </a>
-        <a href="{% url 'cars' %}" class="mr-5 hover:text-red-900 rounded-lg hover:bg-yellow-200 inline-flex items-center">
-          Cars
-        </a>
-        </a>
-        <a href="{% url 'favorite_list' %}" class="mr-5 hover:text-blue-900 rounded-lg hover:bg-blue-200 inline-flex items-center">
+        <a href="{% url 'favorite_list' %}" class="mr-5 hover:text-gray-900 rounded-lg hover:bg-pink-200 inline-flex items-center">
           Favorites
-        </a>
-        <a href="{% url 'polls:index' %}" class="mr-5 hover:text-blue-900 rounded-lg hover:bg-blue-200 inline-flex items-center">
-        Polls
         </a>
           <!-- This example requires Tailwind CSS v2.0+ -->
 <div x-data="{ open: false }" class="relative inline-block text-left">
@@ -60,7 +56,7 @@
           </a>
       {% endfor %}
         <a href="{% url 'allposts' %}" type="submit" class="text-gray-700 block w-full text-left px-4 py-2 text-sm rounded-lg hover:bg-pink-200" role="menuitem" tabindex="-1" id="menu-item-3">
-        See all cars</a> 
+        See all posts</a> 
     </div>
   </div>
 </div>

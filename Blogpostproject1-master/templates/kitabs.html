@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Kitabların Siyahısı</h1>
+    <table>
+        <tr>
+            <th>Kitabın Adı -- Kitabın Yazıçısı</th>
+        </tr>
+        {% for kitab in kitabs %}
+        <tr>
+            <td>{{ kitab.name }} -- {{ kitab.writername }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock content %}

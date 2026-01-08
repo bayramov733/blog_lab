@@ -1,12 +1,8 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, include
-from django.shortcuts import redirect
+from django.urls import path
 from posts import views
-
-def home_redirect(request):
-    return redirect("/polls/")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -19,13 +15,9 @@ urlpatterns = [
     path('postlist/<slug>/', views.postlist, name='postlist'),
     path('posts/', views.allposts, name='allposts'),
     path('tag/', views.tag_list, name='tag_list'),
-    path('cars/', views.cars, name='cars'),
+    path('kitabs/', views.kitabs, name='kitabs'),
     path('post/<slug:slug>/favorite/', views.toggle_favorite, name='toggle_favorite'),
     path('favorites/', views.favorite_list, name='favorite_list'),
-
-    path("", home_redirect), 
-    path("polls/", include("polls.urls")),
-    path("admin/", admin.site.urls),
     
 ]
 

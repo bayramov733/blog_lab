@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q 
-from .models import Category, Post, Author, Tag, Car, Comment, About
+from .models import Category, Post, Author, Tag, Kitab, Comment, About
 from django.contrib.auth.decorators import login_required
 
 
@@ -90,17 +90,21 @@ def allposts(request):
     }
     return render(request, 'all_posts.html', context)
 
-def cars (request):
+from django.db.models import Q
+
+def kitabs(request):
     q = request.GET.get('q')
-    cars = Car.objects.all()
+    kitabs = Kitab.objects.all()
 
     if q:
-        cars = cars.filter(
-            Q(name__icontains=q) | Q(surname__icontains=q)
+        kitabs = kitabs.filter(
+            Q(name__icontains=q) |
+            Q(writername__icontains=q)
         )
 
+    return render(request, 'kitabs.html', {'kitabs': kitabs})
+ 
 
-    return render(request, 'cars.html', {'cars': cars}) 
 
 def tag_list(request):
     query = request.GET.get('q' , '').strip()
@@ -119,11 +123,11 @@ def like_post(request, slug):
     post = get_object_or_404(Post, slug=slug)
 
     if request.user in post.likes.all():
-        post.likes.remove(request.user)   
+        post.likes.remove(request.user)
     else:
-        post.likes.add(request.user)      
+        post.likes.add(request.user)
 
-    return redirect(request.META.get('HTTP_REFERER', '/'))
+    return redirect('post', slug=slug)
 
 
 @login_required
