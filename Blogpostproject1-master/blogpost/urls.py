@@ -10,15 +10,16 @@ urlpatterns = [
     path('post/<slug>/', views.post, name = 'post'),
     path('post/<slug:slug>/', views.post, name='post_detail'),
     path('post/<slug:slug>/like/', views.like_post, name='like_post'),
+    path('post/<slug:slug>/unlike/',views.unlike_post,name='unlike_post'),
     path('about/', views.about, name='about'),
     path('search/', views.search, name='search'),
     path('postlist/<slug>/', views.postlist, name='postlist'),
     path('posts/', views.allposts, name='allposts'),
-    path('tag/', views.tag_list, name='tag_list'),
     path('kitabs/', views.kitabs, name='kitabs'),
     path('post/<slug:slug>/favorite/', views.toggle_favorite, name='toggle_favorite'),
     path('favorites/', views.favorite_list, name='favorite_list'),
-    
+    path('post/<int:post_id>/report/', views.report_post, name='report_post'),
+    path('tag/<int:tag_id>/', views.posts_by_tag, name='posts_by_tag'),
 ]
 
 if settings.DEBUG:

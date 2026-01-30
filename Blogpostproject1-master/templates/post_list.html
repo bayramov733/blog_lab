@@ -17,25 +17,29 @@
           <div class="bg-gray-100 p-6 rounded-lg">
             <img class="h-40 rounded w-full object-cover object-center mb-6" src="{{ post.thumbnail.url }}" alt="content">
  <!-- FAVORITE BURDA -->
-            <div class="flex items-center justify-between mb-2">
-              <a href="{% url 'post_detail' post.slug %}"
-                 class="text-lg text-gray-700 font-medium title-font">
-                {{ post.title }}
-              </a>
-
+            <div>
+              <a href="{% url 'post_detail' post.slug %}">{{ post.title }}</a>
               {% if user.is_authenticated %}
               <form method="POST"
                     action="{% url 'toggle_favorite' post.slug %}">
                 {% csrf_token %}
                 {% if user in post.favorites.all %}
-                  <button type="submit">❤️</button>
-                {% else %}
-                  <button type="submit">🤍</button>
+                  <button type="submit">❤️</button>{% else %} <button type="submit">🤍</button>
                 {% endif %}
               </form>
               {% endif %}
             </div>
             <!-- FAVORITE QUTARDI -->
+
+
+{% with post.tags.all|first as tag %}
+  {% if tag %}
+    <a href="{% url 'posts_by_tag' tag.id %}">
+      {{ tag.name }}
+    </a>
+  {% endif %}
+{% endwith %}
+
 
             <h3 class="tracking-widest text-blue-500 text-xs font-medium title-font">
               {{ post.subtitle }}</h3>

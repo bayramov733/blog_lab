@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q 
-from .models import Category, Post, Author, Tag, Kitab, Comment, About
+from .models import Category, Post, Author, Tag, Kitab, Comment, About, Report
 from django.contrib.auth.decorators import login_required
 
 
@@ -90,7 +90,6 @@ def allposts(request):
     }
     return render(request, 'all_posts.html', context)
 
-from django.db.models import Q
 
 def kitabs(request):
     q = request.GET.get('q')
@@ -106,15 +105,15 @@ def kitabs(request):
  
 
 
-def tag_list(request):
-    query = request.GET.get('q' , '').strip()
+def posts_by_tag(request, tag_id):
+    tag = get_object_or_404(Tag, id=tag_id)
+    posts = Post.objects.filter(tags=tag)
 
-    if query:
-        tags = Tag.objects.filter(name__icontains=query)
-    else:
-        tags = Tag.objects.all()
-
-    return render(request , 'tag_list.html' , {'tag':tags , 'query':query})
+    return render(request, "post_list.html", {
+        "posts": posts,
+        "tags": Tag.objects.all(),
+        "active_tag": tag
+    })
 
 
 
@@ -126,9 +125,17 @@ def like_post(request, slug):
         post.likes.remove(request.user)
     else:
         post.likes.add(request.user)
-
     return redirect('post', slug=slug)
 
+@login_required
+def unlike_post(request, slug):
+    post = get_object_or_404(Post, slug=slug)
+
+    if request.user in post.unlike.all():
+        post.unlike.remove(request.user)
+    else:
+        post.unlike.add(request.user)
+    return redirect('post', slug=slug)
 
 @login_required
 def toggle_favorite(request, slug):
@@ -145,3 +152,24 @@ def toggle_favorite(request, slug):
 def favorite_list(request):
     posts = request.user.favorite_posts.all()
     return render(request, 'favorites.html', {'posts': posts})
+
+
+@login_required
+def report_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    
+    if request.method == 'POST':
+        reason = request.POST.get('reason')
+        description = request.POST.get('description', '')
+        
+        report, created = Report.objects.get_or_create(
+            post=post,
+            user=request.user,
+            defaults={'reason': reason, 'description': description}
+        )
+        
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({'success': True, 'message': 'Şikayət göndərildi'})
+        
+        return redirect('post_detail', slug=post.slug)
+    
