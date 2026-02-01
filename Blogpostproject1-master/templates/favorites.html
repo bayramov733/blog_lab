@@ -10,7 +10,6 @@
           <p>{{ post.overview|truncatewords:15 }}</p>
           <a href="{% url 'post_detail' post.slug %}">Read more →</a>
         </div>
-      </div>
     {% endfor %}
     </div>
     {% else %}

@@ -1,51 +1,87 @@
 {% extends 'base.html' %}
 {% block content %}
 
-
 <section class="blog text-gray-700 body-font">
     <div class="container px-5 py-24 mx-auto">
-      <div class="flex flex-wrap w-full mb-20 flex-col items-center text-center">
-        <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900"> 
-          Search Results</h1>
-        
-      </div>
-      <div class="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4">
-        {% for obj in object_list %}
-        <div class="p-4 md:w-1/3 md:mb-0 mb-6 flex flex-col justify-center items-center max-w-sm mx-auto">
-         <div class="bg-gray-300 h-56 w-full rounded-lg shadow-md bg-cover bg-center" style="background-image: url(https://static.vecteezy.com/system/resources/previews/009/686/450/original/sign-of-the-down-arrow-symbol-is-isolated-on-a-white-background-down-arrow-icon-color-editable-free-vector.jpg)"></div>
-
-          <div class=" w-70 bg-white -mt-10 shadow-lg rounded-lg overflow-hidden p-5">
-            
-            <div class="header-content inline-flex ">
-              <div class="category-badge flex-1  h-4 w-4 m rounded-full m-1 bg-purple-100">
-                <div class="h-2 w-2 rounded-full m-1 bg-purple-500 " ></div>
-              </div>
-              {% for category in obj.categories.all %}
-              <div class="category-title flex-1 text-sm"> 
-                {{ category.title }}
-              </div>
-              {% endfor %}
+        <div class="flex flex-wrap w-full mb-10 flex-col items-center text-center">
+            <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">
+                Axtarış Nəticələri
+            </h1>
+            <!-- bu hissee -->
+            <div class="flex flex-wrap justify-center mt-4 gap-2">
+                {% for tag in all_tags %}
+                <a href="{% url 'search' %}?tag={{ tag.id }}" 
+                   class="px-4 py-1 rounded-full border text-sm transition-colors 
+                   {% if selected_tag == tag.id|stringformat:'s' %} 
+                        bg-blue-500 text-white border-blue-500 
+                   {% else %} 
+                        bg-gray-100 text-gray-600 hover:bg-gray-200 border-transparent
+                   {% endif %}">
+                   {{ tag.name }}
+                </a>
+                {% endfor %}
             </div>
-              <div class="title-post font-medium">
-              {{ obj.title }}
-              </div>
-
-              <div class="summary-post text-base text-justify">
-                {{ obj.overview }}
-              </div>
-              
-              <div class="mt-3">
-              <a href="{% url 'post' obj.slug %}" class="bg-blue-100 text-blue-500 rounded p-2 text-sm ">
-                Read more
-              </a>
-            </div>
-
-          </div>
         </div>
-        {% endfor %}
-      </div>
+        <!-- bu hisse -->
+
+        <div class="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4">
+            {% for obj in object_list %}
+            <div class="p-4 md:w-1/3 md:mb-0 mb-6 flex flex-col justify-center items-center max-w-sm mx-auto">
+                <div class="bg-gray-300 h-56 w-full rounded-lg shadow-md bg-cover bg-center" 
+                     style="background-image: url('{{ obj.thumbnail.url }}');">
+                </div>
+
+                <div class="w-70 bg-white -mt-10 shadow-lg rounded-lg overflow-hidden p-5 z-10">
+                    <div class="header-content inline-flex items-center mb-2">
+                        <div class="category-badge h-3 w-3 rounded-full bg-blue-500 mr-2"></div>
+                        {% for category in obj.categories.all %}
+                        <span class="text-xs font-semibold uppercase tracking-widest text-blue-500 mr-2">
+                            {{ category.title }}
+                        </span>
+                        {% endfor %}
+                    </div>
+
+                    <div class="title-post font-bold text-xl mb-2 text-gray-800">
+                        {{ obj.title }}
+                    </div>
+
+                    <div class="summary-post text-sm text-gray-600 leading-relaxed h-20 overflow-hidden">
+                        {{ obj.overview|truncatechars:120 }}
+                    </div>
+                    
+                    <div class="mt-3 flex flex-wrap gap-1">
+
+                      <!-- bu hisse -->
+
+                        {% for tag in obj.tags.all %}
+                            <a href="{% url 'search' %}?tag={{ tag.id }}" 
+                               class="text-[10px] bg-gray-100 px-2 py-0.5 rounded text-gray-500 hover:bg-blue-100 hover:text-blue-600 transition-colors">
+                               #{{ tag.name }}
+                            </a>
+                        {% endfor %}
+
+                        <!-- bu hisse -->
+                    </div>
+
+                    <div class="mt-4 border-t pt-4">
+                        <a href="{% url 'post' obj.slug %}" class="text-blue-600 font-semibold hover:text-blue-800 text-sm inline-flex items-center">
+                            Davamını oxu
+                            <svg class="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- bu hisse -->
+            {% empty %}
+            <div class="w-full text-center py-20 text-gray-500">
+                <p class="text-xl">Bu filtrə uyğun heç bir post tapılmadı.</p>
+                <a href="{% url 'search' %}" class="text-blue-500 underline mt-4 block">Axtarışı sıfırla</a>
+            </div>
+
+            <!-- bu hisse -->
+            {% endfor %}
+        </div>
     </div>
 </section>
-
 
 {% endblock %}

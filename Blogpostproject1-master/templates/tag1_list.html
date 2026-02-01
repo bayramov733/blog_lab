@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<div>
+    <h3>Tag Axtarış</h3>
+    <form method="GET" action="{% url 'tag1_list' %}">
+        <input type="text" name="q" placeholder="Tag adı yazın..." value="{{ request.GET.q }}">
+        <button type="submit">Axtar</button>
+    </form>
+    <hr>
+    {% for i in tag1 %}
+        <div>
+            <p><strong>{{ forloop.counter }}.</strong> {{ i.name }}</p>
+            <p>Tarix: {{ i.created_at|date:"d M Y" }}</p>
+        </div>
+        <hr>
+    {% empty %}
+        <p>Heç bir tag tapılmadı...</p>
+    {% endfor %}
+</div>
+{% endblock %}

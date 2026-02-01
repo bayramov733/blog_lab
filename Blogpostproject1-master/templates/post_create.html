@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+<section>
+    <div class="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-md">
+        {% if form.non_field_errors %}
+        <div>
+            {% for error in form.non_field_errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}           
+            <div >
+                {% for field in form %}
+                <div>
+                    <label >{{ field.label }}</label>
+                    <div >
+                        {{ field }}
+                    </div>
+                    {% if field.help_text %}
+                        <p >{{ field.help_text }}</p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            <div >
+                <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg">
+                    Postu Dərc Et
+                </button>
+            </div>
+        </form>
+    </div>
+</section>
+
+<script>
+    const titleInput = document.querySelector('input[name="title"]');
+    const slugInput = document.querySelector('input[name="slug"]');
+
+    if (titleInput && slugInput) {
+        titleInput.addEventListener('input', (e) => {
+            slugInput.value = e.target.value
+                .toLowerCase()
+                .trim()
+                .replace(/[^\w ]+/g, '')
+                .replace(/ +/g, '-');
+        });
+    }
+</script>
+{% endblock %}

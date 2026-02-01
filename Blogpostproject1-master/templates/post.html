@@ -53,47 +53,120 @@
 						<p class="text-sm md:text-base font-normal text-gray-600">
 						{{ obj.timestamp}}</p>
 						<img class="h-40 rounded w-full object-cover object-center mb-6" src="{{ post.thumbnail.url }}" alt="content">
+			<div>
+
+				{% if user.is_authenticated %}
+                <form method="POST" action="{% url 'like_post' post.slug %}" class="mb-4">
+            {% csrf_token %}
+                    <button type="submit">
+                        Like {{ post.total_likes }}
+                    </button>
+                </form>
+            {% else %}
+            <p>
+            Like etmək üçün login olun
+            </p>
+            {% endif %}
+
+
+			{% if user.is_authenticated %}
+                <form method="POST" action="{% url 'unlike_post' post.slug %}" class="mb-4">
+            {% csrf_token %}
+                    <button type="submit">
+                        Unlike {{ post.total_unlikes }}
+                    </button>
+                </form>
+            {% else %}
+            <p>
+            Unlike etmək üçün login olun
+            </p>
+            {% endif %}
+
+
+
+			            <div class="flex items-center text-gray-700 text-xl font-semibold">
+              gorundu<span class="ml-2">{{ post.views }}</span>
+            </div>
+
+			<small>
+                 {{ post.created_at|date:"d.m.Y H:i" }} |
+                 {{ post.updated_at|date:"d.m.Y H:i" }}
+            </small>
+
+
+
+			<!--Post Content-->
+
+			<div class="py-6">
+			{{ post.content | markdown | safe }}
 			</div>
 
 
+		
+
+		
+
+			<ol>
+				<li class="py-3">Maecenas accumsan lacus sit amet elementum porta. Aliquam eu libero lectus. Fusce vehicula dictum mi. In non dolor at sem ullamcorper venenatis ut sed dui. Ut ut est quam. Suspendisse quam quam, commodo sit amet placerat in, interdum a ipsum. Morbi sit amet tellus scelerisque tortor semper posuere.</li>
+				<li class="py-3">Morbi varius posuere blandit. Praesent gravida bibendum neque eget commodo. Duis auctor ornare mauris, eu accumsan odio viverra in. Proin sagittis maximus pharetra. Nullam lorem mauris, faucibus ut odio tempus, ultrices aliquet ex. Nam id quam eget ipsum luctus hendrerit. Ut eros magna, eleifend ac ornare vulputate, pretium nec felis.</li>
+				<li class="py-3">Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nunc vitae pretium elit. Cras leo mauris, tristique in risus ac, tristique rutrum velit. Mauris accumsan tempor felis vitae gravida. Cras egestas convallis malesuada. Etiam ac ante id tortor vulputate pretium. Maecenas vel sapien suscipit, elementum odio et, consequat tellus.</li>
+			</ol>
+
+	
 
 
-			<!--  LIKE BURDA -->
-			{% if user.is_authenticated %}
-				<form method="POST" action="{% url 'like_post' post.slug %}" class="mb-4">
-    		{% csrf_token %}
-    				<button type="submit">
-        				Like {{ post.total_likes }}
-    				</button>
-				</form>
-			{% else %}
-			<p>
-    		Like etmək üçün login olun
-			</p>
-			{% endif %}
-			<!--  LIKE QUTARDI -->
+			<!--/ Post Content-->
 
-			<!--  UNLIKE BURDA -->
-			{% if user.is_authenticated %}
-				<form method="POST" action="{% url 'unlike_post' post.slug %}" class="mb-4">
-    		{% csrf_token %}
-    				<button type="submit">
-        				Unlike {{ post.total_unlike }}
-    				</button>
-				</form>
-			{% else %}
-			<p>
-    		Unike etmək üçün login olun
-			</p>
-			{% endif %}
-			<!--  UNLIKE QUTARDI -->
+		</div>
 
-			<div class="flex items-center text-gray-700 text-xl font-semibold">
-    		👁 <span class="ml-2">{{ post.views }}</span>
-  			</div>
+		
 
-<!-- Report Modal -->
-<div id="reportModal" tabindex="-1">
+		<!--Divider-->
+		<hr class="border-b-2 border-gray-400 mb-8 mx-4">
+
+
+
+		<!--Author-->
+<div class="flex w-full items-center font-sans px-4 py-12">
+    {% if post.author.profile_picture %}
+        <img class="w-10 h-10 rounded-full mr-4" src="{{ post.author.profile_picture.url }}" alt="{{ post.author }}">
+    {% else %}
+        <img class="w-10 h-10 rounded-full mr-4" src="https://ui-avatars.com/api/?name={{ post.author }}&background=random" alt="{{ post.author }}">
+    {% endif %}
+    
+    <div class="flex-1 px-2">
+        <p class="text-base font-bold text-base md:text-xl leading-none mb-2">
+            {{ post.author }}
+        </p>
+    </div>
+</div>
+		<!--/Author-->
+
+		<!--Divider-->
+		<hr class="border-b-2 border-gray-400 mb-8 mx-4">
+
+		<h3>Comments</h3>
+            {% for comment in comments %}
+                <div>
+                    <strong >{{ comment.user.username }}</strong>
+					<p >{{ comment.content }}</p>
+                    <small >{{ comment.created_at }}</small>
+                </div>
+            {% empty %}
+                <p >Hələ comment yoxdur.</p>
+            {% endfor %}
+            {% if user.is_authenticated %}
+            <form method="POST" >
+                {% csrf_token %}
+                <textarea name="content" required placeholder="Şərh əlavə edin..."></textarea>
+                <button type="submit">Göndər</button>
+            </form>
+            {% else %}
+                <p>Comment yazmaq üçün login olun.</p>
+            {% endif %}
+
+
+			<div id="reportModal" tabindex="-1">
     <div >
         <div >
             <div >
@@ -129,109 +202,10 @@
     </div>
 </div>
 
-<!-- bitdiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii -->
-
-			
-
-            <small>
-                 {{ post.created_at|date:"d.m.Y H:i" }} |
-                 {{ post.updated_at|date:"d.m.Y H:i" }}
-            </small>
-
-			<!--Post Content-->
-
-			<div class="py-6">
-			{{ post.content | markdown | safe }}
-			</div>
 
 
-		
-
-		
-
-			<ol>
-				<li class="py-3">Maecenas accumsan lacus sit amet elementum porta. Aliquam eu libero lectus. Fusce vehicula dictum mi. In non dolor at sem ullamcorper venenatis ut sed dui. Ut ut est quam. Suspendisse quam quam, commodo sit amet placerat in, interdum a ipsum. Morbi sit amet tellus scelerisque tortor semper posuere.</li>
-				<li class="py-3">Morbi varius posuere blandit. Praesent gravida bibendum neque eget commodo. Duis auctor ornare mauris, eu accumsan odio viverra in. Proin sagittis maximus pharetra. Nullam lorem mauris, faucibus ut odio tempus, ultrices aliquet ex. Nam id quam eget ipsum luctus hendrerit. Ut eros magna, eleifend ac ornare vulputate, pretium nec felis.</li>
-				<li class="py-3">Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nunc vitae pretium elit. Cras leo mauris, tristique in risus ac, tristique rutrum velit. Mauris accumsan tempor felis vitae gravida. Cras egestas convallis malesuada. Etiam ac ante id tortor vulputate pretium. Maecenas vel sapien suscipit, elementum odio et, consequat tellus.</li>
-			</ol>
 
 	
-
-
-			<!--/ Post Content-->
-
-		</div>
-
-		
-
-		<!--Divider-->
-		<hr class="border-b-2 border-blue-900 mb-8 mx-4">
-
-		
-
-
-
-
-
-
-		<!--Author-->
-		<div class="flex w-full items-center font-sans px-4 py-12">
-			<img class="w-10 h-10 rounded-full mr-4" src="{{ post.author.profile_picture.url }}">
-			<div class="flex-1 px-2">
-				<p class="text-base font-bold text-base md:text-xl leading-none mb-2">
-				{{ post.author }}</p>
-		
-			</div>
-			
-		</div>
-		<!--/Author-->
-
-		<!--Divider-->
-		<hr>
-
-		    <h3>
-    			💬 Comments
-			</h3>
-
-			{% for comment in comments %}
-    			<div>
-        			<strong >
-            			{{ comment.user.username }}
-        			</strong>
-
-        			<p >
-            			{{ comment.content }}
-        			</p>
-
-        			<small >
-            			{{ comment.created_at }}
-        			</small>
-    			</div>
-			{% empty %}
-    			<p >Hələ comment yoxdur.</p>
-			{% endfor %}
-
-			{% if user.is_authenticated %}
-			<form method="POST" >
-   				{% csrf_token %}
-
-    			<textarea name="content" required placeholder="Şərh əlavə edin..."
-       			></textarea>
-
-    			<button type="submit"
-            	>Göndər 
-    			</button>
-			</form>
-			{% else %}
-				<p>
-    			Comment yazmaq üçün login olun.
-				</p>
-			{% endif %}
-
-
-
-
-
 
 	</div>
 	<!--/container-->
@@ -281,7 +255,6 @@
 			document.getElementById("nav-content").classList.toggle("hidden");
 		}
 	</script>
-	
 
 <!-- </body> -->
 
